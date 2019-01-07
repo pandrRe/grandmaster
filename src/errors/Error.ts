@@ -5,6 +5,8 @@ export enum ErrorType {
 }
 
 export enum Message {
+    NotLoggedIn = "You are not logged in.",
+    Unauthorized = "You don't have permission to access this endpoint.",
     Credentials = "Wrong credentials.",
     UserAlreadyExists = "User already exists.",
     SomethingWrong = "Something wrong happened on our side...",

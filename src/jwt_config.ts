@@ -4,13 +4,8 @@ import passport from "passport";
 
 export function JWTConfig() {
     const [secretOrKey, issuer, audience] = [process.env.JWT_SECRET!, "grandmaster", "leaguemaster"];
-
-    const post_options = {
-        jwtFromRequest: ExtractJwt.fromBodyField("jwt"),
-        secretOrKey, issuer, audience,
-    };
     
-    const get_options = {
+    const options = {
         jwtFromRequest: ExtractJwt.fromHeader("jwt"),
         secretOrKey, issuer, audience
     }
@@ -29,6 +24,5 @@ export function JWTConfig() {
             });
     };
 
-    passport.use("jwt_post", new Strategy(post_options, strategy));
-    passport.use("jwt_get", new Strategy(get_options, strategy));
+    passport.use("jwt", new Strategy(options, strategy));
 }

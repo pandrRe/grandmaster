@@ -52,7 +52,7 @@ export class UserController {
 
         try {
             const user = await User.findOne({
-                select: ["id", "login", "password"],
+                select: ["id", "login", "password", "profile"],
                 where: { login: credentials.login },
             });
     
@@ -62,6 +62,7 @@ export class UserController {
                     const userPayload = {
                         id: user.id,
                         login: user.login,
+                        profile: user.profile,
                     };
 
                     const JWT = jwt.sign(userPayload, process.env.JWT_SECRET!, {
