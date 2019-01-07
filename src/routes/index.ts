@@ -1,3 +1,2 @@
-import Base from "./base";
-
-export { Base };
+export { default as Base } from "./base";
+export { default as User } from "./user";
