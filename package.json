@@ -2,10 +2,11 @@
   "name": "grandmaster",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "out/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "tsc -w | nodemon ./out/index.js"
+    "test": "jest --verbose",
+    "watch": "tsc -w | nodemon ./out/index.js",
+    "build": "tsc"
   },
   "author": "pandrre",
   "license": "MIT",
@@ -14,9 +15,8 @@
     "class-validator": "^0.9.1",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
     "jsonwebtoken": "^8.4.0",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0",
     "pg": "^7.7.1",
     "reflect-metadata": "^0.1.12",
     "typeorm": "^0.2.11"
@@ -25,12 +25,14 @@
     "@types/bcrypt": "^3.0.0",
     "@types/dotenv": "^6.1.0",
     "@types/express": "^4.16.0",
+    "@types/express-jwt": "0.0.41",
+    "@types/jest": "^23.3.12",
     "@types/jsonwebtoken": "^8.3.0",
     "@types/node": "^10.12.18",
-    "@types/passport": "^1.0.0",
-    "@types/passport-jwt": "^3.0.1",
+    "@types/supertest": "^2.0.7",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
+    "supertest": "^3.3.0",
     "ts-jest": "^23.10.5",
     "typescript": "^3.2.2"
   }
