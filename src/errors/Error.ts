@@ -2,6 +2,7 @@ export enum ErrorType {
     Internal = "INTERNAL_ERROR",
     Auth = "AUTH_ERROR",
     Registration = "REGISTRATION_ERROR",
+    Request = "REQUEST_ERROR",
 }
 
 export enum Message {
@@ -10,6 +11,8 @@ export enum Message {
     Credentials = "Wrong credentials.",
     UserAlreadyExists = "User already exists.",
     SomethingWrong = "Something wrong happened on our side...",
+    UserIsOnTournament = "The user is already participating in the tournament.",
+    TournamentNotFound = "Specified tournament was not found.",
 }
 
 export function error(errorType: ErrorType, body: Message | object | Array<object>) {

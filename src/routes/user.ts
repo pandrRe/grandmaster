@@ -8,12 +8,10 @@ const router = Router();
 
 router.post("/register", Worker.registerUser);
 router.post("/login", Worker.loginUser);
+router.post("/admin", adminSecret(process.env.ADMIN_SECRET!), Worker.newAdminAccount);
 
 router.use(jwt);
 
 router.get("/:id", Worker.getUserByID);
-
-router.use(adminAccess);
-router.use(adminSecret(process.env.ADMIN_SECRET!))
 
 export default router;

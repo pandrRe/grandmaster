@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { Min, Max, Length, validate, ValidationError } from "class-validator";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
+import { Length, validate, ValidationError } from "class-validator";
+import { UserOnTournament } from "./UserOnTournament";
 
 @Entity()
 export class User extends BaseEntity {
@@ -16,6 +17,9 @@ export class User extends BaseEntity {
 
     @Column()
     profile!: number;
+
+    @OneToMany(type => UserOnTournament, tournament => tournament.user)
+    tournaments!: UserOnTournament[];
 
     public async validate() : Promise<[boolean, ValidationError[] | null]> {
         const errors = await validate(this, { validationError: { target: false } });

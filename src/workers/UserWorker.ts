@@ -42,7 +42,6 @@ async function registerUser(req: Request, res: Response) {
         user.login = credentials.login;
         user.password = credentials.password;
         user.profile = 1;
-        console.log(user);
 
         const [hasErrors, errors] = await user.validate();
         if (hasErrors) {
@@ -82,18 +81,35 @@ async function loginUser(req: Request, res: Response) {
                     audience: "leaguemaster",
                     expiresIn: "1d",
                 });
-                res.send({ user: userPayload, JWT });   
-                return;
+                return res.send({ user: userPayload, JWT });   
             }
         }
 
-        res.status(400).send(error(ErrorType.Auth, Message.Credentials));
+        return res.status(400).send(error(ErrorType.Auth, Message.Credentials));
     }
     catch(e) {
-        res.status(500).send(error(ErrorType.Internal, Message.SomethingWrong));
+        return res.status(500).send(error(ErrorType.Internal, Message.SomethingWrong));
+    }
+}
+
+async function newAdminAccount(req: Request, res: Response) {
+    const credentials = req.body;
+    const user = new User();
+
+    try {
+        user.login = credentials.login;
+        user.password = credentials.password;
+        user.profile = 2;
+
+        user.password = await helper.generatePassword(user.password);
+        await user.save();
+        return res.send(user);
+    }
+    catch(e) {
+        return res.status(500).send(error(ErrorType.Internal, Message.SomethingWrong));
     }
 }
 
 export default {
-    getUserByID, registerUser, loginUser,
+    getUserByID, registerUser, loginUser, newAdminAccount,
 };

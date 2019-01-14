@@ -10,7 +10,7 @@ afterAll(() => {
     return DB.endConnectionToDB();
 });
 
-test("Test the testing environment itself.", () => {
+test("Test the testing environment and the app bootstrap.", () => {
     return supertest(app).get("/")
         .then(response => {
             expect(response.status).toBe(200);
