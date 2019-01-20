@@ -15,7 +15,9 @@ export class RosterOnMatch extends BaseEntity {
     @ManyToOne(type => Match, match => match.players)
     match!: Match;
 
-    @ManyToOne(type => Champion, champion => champion.matches)
+    @ManyToOne(type => Champion, champion => champion.matches, {
+        nullable: true,
+    })
     champion!: Champion;
 
     @OneToMany(type => RosterPerformance, performance => performance.player)

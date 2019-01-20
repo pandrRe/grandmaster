@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany, RelationId } from "typeorm";
 import { Player } from "./Player";
 import { TeamOnTournament } from "./TeamOnTournament";
 import { RosterOnMatch } from "./RosterOnMatch";

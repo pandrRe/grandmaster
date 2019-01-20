@@ -2,6 +2,12 @@ import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany, Colum
 import { Tournament } from "./Tournament";
 import { Match } from "./Match";
 import { RoundHistory } from "./RoundHistory";
+import moment = require("moment");
+
+export type RoundData = {
+    name: string,
+    date: string,
+};
 
 @Entity()
 export class Round extends BaseEntity {
@@ -14,10 +20,10 @@ export class Round extends BaseEntity {
     @Column("date")
     date!: Date;
 
-    @Column()
+    @Column({default: false})
     started!: boolean;
 
-    @Column()
+    @Column({default: false})
     finished!: boolean;
 
     @ManyToOne(type => Tournament, tournament => tournament.rounds)
@@ -28,4 +34,9 @@ export class Round extends BaseEntity {
 
     @OneToMany(type => RoundHistory, history => history.round)
     history!: RoundHistory[];
+
+    public fromData(data: RoundData) {
+        this.name = data.name;
+        this.date = moment(data.date, "YYYY-MM-DD").toDate();
+    }
 }

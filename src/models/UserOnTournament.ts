@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Column, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Column, ManyToMany, JoinTable, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { Tournament } from "./Tournament";
 import { Roster } from "./Roster";
 import { User } from "./User";
 import { RoundHistory } from "./RoundHistory";
+import { Round } from "./Round";
 
 @Entity()
 export class UserOnTournament extends BaseEntity {
@@ -20,6 +21,10 @@ export class UserOnTournament extends BaseEntity {
 
     @ManyToOne(type => Tournament, tournament => tournament.users)
     tournament!: Tournament;
+
+    @OneToOne(type => Round)
+    @JoinColumn()
+    currentRound!: Round;
 
     @OneToMany(type => RoundHistory, history => history.round)
     history!: RoundHistory[];

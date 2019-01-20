@@ -13,6 +13,8 @@ export function bootstrap() {
     app.use("/", Route.Base);
     app.use("/user", Route.User);
     app.use("/tournament", Route.Tournament);
+    app.use("/player", Route.Player);
+    app.use("/team", Route.Team);
 
     //Setup error-handling middlewares.
     app.use(authError());

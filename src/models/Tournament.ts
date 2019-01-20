@@ -39,7 +39,7 @@ export class Tournament extends BaseEntity {
     @Column({type: "double precision", default: 100})
     startingBudget!: number;
 
-    @OneToOne(type => Round)
+    @OneToOne(type => Round, {eager: true})
     @JoinColumn()
     currentRound!: Round;
 
