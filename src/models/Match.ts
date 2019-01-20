@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany, Column, OneToOne, JoinColumn } from "typeorm";
 import { Round } from "./Round";
 import { RosterOnMatch } from "./RosterOnMatch";
 import { TeamOnMatch } from "./TeamOnMatch";
@@ -8,11 +8,19 @@ export class Match extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
+    @Column({ nullable: true })
+    duration!: string;
+
+    @OneToOne(type => TeamOnMatch)
+    @JoinColumn()
+    blueTeam!: TeamOnMatch;
+
+    @OneToOne(type => TeamOnMatch)
+    @JoinColumn()
+    redTeam!: TeamOnMatch;
+
     @ManyToOne(type => Round, round => round.matches)
     round!: Round;
-
-    @OneToMany(type => TeamOnMatch, team => team.match)
-    teams!: TeamOnMatch[];
 
     @OneToMany(type => RosterOnMatch, player => player.match)
     players!: RosterOnMatch[];

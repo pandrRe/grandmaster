@@ -29,7 +29,4 @@ export class TeamOnMatch extends BaseEntity {
 
     @ManyToOne(type => TeamOnTournament, team => team.matches)
     team!: TeamOnTournament;
-
-    @ManyToOne(type => Match, match => match.teams)
-    match!: Match;
 }

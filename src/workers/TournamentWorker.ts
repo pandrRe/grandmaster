@@ -195,8 +195,8 @@ async function addMatchToRound(req: Request, res: Response) {
         await match.save();
 
         const matchData: {
-            teams: number[], //TeamOnTournament ids.
-            sides: Sides[],
+            teams: [number, number], //TeamOnTournament ids.
+            sides: [Sides, Sides],
         } = req.body;
 
         const teamsPromise = matchData.teams.map(teamId => TeamOnTournament.findOne(teamId, {
@@ -215,15 +215,19 @@ async function addMatchToRound(req: Request, res: Response) {
             })]
 
             const teamOnMatch = new TeamOnMatch();
+            const side = matchData.sides[index];
+
             teamOnMatch.team = team!;
-            teamOnMatch.match = match;
-            teamOnMatch.side = matchData.sides[index];
+            teamOnMatch.side = side;
             return teamOnMatch.save();
         });
+            
+        await Promise.all(rosterPromise);
+        const teamsOnMatch = await Promise.all(teamsOnMatchPromise);
+        match.blueTeam = teamsOnMatch.find(team => team.side === Sides.BLUE)!;
+        match.redTeam = teamsOnMatch.find(team => team.side === Sides.RED)!;
 
-        const [teamsOnMatch, players] = [
-            await Promise.all(teamsOnMatchPromise), await Promise.all(rosterPromise)
-        ];
+        await match.save();
 
         return res.send(match);
     }
