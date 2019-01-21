@@ -1,22 +1,24 @@
 import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany } from "typeorm";
 import { Roster } from "./Roster";
-import { Match } from "./Match";
 import { Champion } from "./Champion";
 import { RosterPerformance } from "./RosterPerformance";
+import { TeamOnMatch } from "./TeamOnMatch";
 
 @Entity()
 export class RosterOnMatch extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(type => Roster, player => player.matches)
+    @ManyToOne(type => Roster, player => player.matches, {
+        eager: true,
+    })
     player!: Roster;
 
-    @ManyToOne(type => Match, match => match.players)
-    match!: Match;
+    @ManyToOne(type => TeamOnMatch, teamOnMatch => teamOnMatch.roster)
+    teamOnMatch!: TeamOnMatch;
 
     @ManyToOne(type => Champion, champion => champion.matches, {
-        nullable: true,
+        nullable: true, eager: true,
     })
     champion!: Champion;
 

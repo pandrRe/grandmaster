@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, OneToMany, Column, OneToOne, JoinColumn, Unique } from "typeorm";
 import { Round } from "./Round";
-import { RosterOnMatch } from "./RosterOnMatch";
 import { TeamOnMatch } from "./TeamOnMatch";
 
 @Entity()
@@ -10,6 +9,9 @@ export class Match extends BaseEntity {
 
     @Column({ nullable: true })
     duration!: string;
+
+    @Column({ default: false })
+    finished!: boolean;
 
     @OneToOne(type => TeamOnMatch)
     @JoinColumn()
@@ -21,7 +23,4 @@ export class Match extends BaseEntity {
 
     @ManyToOne(type => Round, round => round.matches)
     round!: Round;
-
-    @OneToMany(type => RosterOnMatch, player => player.match)
-    players!: RosterOnMatch[];
 }

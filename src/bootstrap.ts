@@ -15,6 +15,7 @@ export function bootstrap() {
     app.use("/tournament", Route.Tournament);
     app.use("/player", Route.Player);
     app.use("/team", Route.Team);
+    app.use("/match", Route.Match);
 
     //Setup error-handling middlewares.
     app.use(authError());

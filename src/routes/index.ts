@@ -3,3 +3,4 @@ export { default as User } from "./user";
 export { default as Tournament } from "./tournament";
 export { default as Player } from "./player";
 export { default as Team } from "./team";
+export { default as Match } from "./match";

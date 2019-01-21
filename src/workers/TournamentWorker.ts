@@ -127,7 +127,7 @@ async function addPlayerToTeam(req: Request, res: Response) {
 
     try {
         const teamOnTournament = await TeamOnTournament.findOne({
-            where: {team_id: req.params.teamId, tournament_id: req.params.tournamentId},
+            where: {team: {id: req.params.teamId}, tournament: {id: req.params.tournamentId}},
             relations: ["tournament"],
         });
         if (!teamOnTournament) {
@@ -192,6 +192,7 @@ async function addMatchToRound(req: Request, res: Response) {
         }
 
         const match = new Match();
+        match.round = round;
         await match.save();
 
         const matchData: {
@@ -204,25 +205,24 @@ async function addMatchToRound(req: Request, res: Response) {
         }));
 
         const teams = await Promise.all(teamsPromise);
-        let rosterPromise: Promise<RosterOnMatch>[] = [];
         
-        const teamsOnMatchPromise = teams.map((team, index) => {
-            rosterPromise = [...rosterPromise, ...team!.roster.map(player => {
+        const teamsOnMatchPromise = teams.map(async (team, index) => {
+            const roster = team!.roster.map(player => {
                 const rosterOnMatch = new RosterOnMatch();
                 rosterOnMatch.player = player;
-                rosterOnMatch.match = match;
-                return rosterOnMatch.save();
-            })]
+                return rosterOnMatch;
+            });
 
             const teamOnMatch = new TeamOnMatch();
             const side = matchData.sides[index];
 
             teamOnMatch.team = team!;
             teamOnMatch.side = side;
+            teamOnMatch.roster = roster;
+
             return teamOnMatch.save();
         });
-            
-        await Promise.all(rosterPromise);
+
         const teamsOnMatch = await Promise.all(teamsOnMatchPromise);
         match.blueTeam = teamsOnMatch.find(team => team.side === Sides.BLUE)!;
         match.redTeam = teamsOnMatch.find(team => team.side === Sides.RED)!;

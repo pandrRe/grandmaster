@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Column } from "typeorm";
-import { Match } from "./Match";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, ManyToOne, Column, OneToMany } from "typeorm";
 import { TeamOnTournament } from "./TeamOnTournament";
+import { RosterOnMatch } from "./RosterOnMatch";
 
 export enum Sides {
     BLUE = "blue",
@@ -27,6 +27,13 @@ export class TeamOnMatch extends BaseEntity {
     })
     side!: Sides;
 
-    @ManyToOne(type => TeamOnTournament, team => team.matches)
+    @OneToMany(type => RosterOnMatch, roster => roster.teamOnMatch, {
+        cascade: true, eager: true,
+    })
+    roster!: RosterOnMatch[];
+
+    @ManyToOne(type => TeamOnTournament, team => team.matches, {
+        eager: true,
+    })
     team!: TeamOnTournament;
 }

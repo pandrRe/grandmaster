@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany, RelationId } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany, RelationId, Unique } from "typeorm";
 import { Player } from "./Player";
 import { TeamOnTournament } from "./TeamOnTournament";
 import { RosterOnMatch } from "./RosterOnMatch";
@@ -13,6 +13,7 @@ export enum Roles {
 }
 
 @Entity()
+@Unique(["player", "team"])
 export class Roster extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
@@ -26,7 +27,9 @@ export class Roster extends BaseEntity {
     })
     role!: Roles;
 
-    @ManyToOne(type => Player, player => player.participations)
+    @ManyToOne(type => Player, player => player.participations, {
+        eager: true,
+    })
     player!: Player;
 
     @ManyToOne(type => TeamOnTournament, team => team.roster)

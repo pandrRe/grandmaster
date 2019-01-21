@@ -16,6 +16,8 @@ export enum Message {
     TeamNotOnTournament = "The specified team on tournament was not found.",
     MatchNotFound = "Match not found.",
     RoundNotFound = "Round not found.",
+    PlayerNotFound = "Player not found.",
+    PerformanceParameterNotFound = "Performance parameter not found.",
 }
 
 export function error(errorType: ErrorType, body: Message | object | Array<object>) {
